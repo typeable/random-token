@@ -4,9 +4,7 @@ module Random.Token
   , tokenToText
   , asciiToToken
   , textToToken
-#ifndef ghcjs_HOST_OS
   , generateToken
-#endif
   ) where
 
 import Control.DeepSeq
@@ -21,11 +19,9 @@ import Data.Typeable
 import Test.QuickCheck.Arbitrary
 import Web.HttpApiData
 
-#ifndef ghcjs_HOST_OS
 import Crypto.Random as R
 import Database.PostgreSQL.Simple.FromField
 import Database.PostgreSQL.Simple.ToField
-#endif
 
 -- | 16 bytes lenght random value parametrized by label.
 newtype Token (a :: k) = Token ByteString
@@ -44,7 +40,6 @@ instance FromJSON (Token a) where
 instance ToJSON (Token a) where
   toJSON = toJSON . tokenToText
 
-#ifndef ghcjs_HOST_OS
 instance forall a. (Typeable (Token a), Typeable a) => FromField (Token a) where
   fromField fld bs = do
     t <- fromField fld bs
@@ -57,7 +52,6 @@ instance ToField (Token a) where
 
 generateToken :: (MonadRandom m) => m (Token a)
 generateToken = Token <$> R.getRandomBytes 16
-#endif
 
 instance FromHttpApiData (Token a) where
   parseQueryParam = first T.pack . textToToken
