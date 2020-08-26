@@ -27,8 +27,6 @@ import Database.PostgreSQL.Simple.ToField
 newtype Token (a :: k) = Token ByteString
   deriving (Ord, Eq, Show, NFData)
 
-type role Token nominal
-
 instance Arbitrary (Token a) where
   arbitrary = fmap (Token . BS.pack) $ sequence $ L.replicate 16 arbitrary
 
