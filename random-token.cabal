@@ -65,6 +65,7 @@ test-suite spec
   build-depends:    base >= 4.10 && <4.13
                   , hspec
                   , random-token
+  build-tool-depends: hspec-discover:hspec-discover
   ghc-options:         -Wall
                        -threaded
                        -rtsopts
