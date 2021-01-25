@@ -5,6 +5,7 @@ module Random.Token
   , asciiToToken
   , textToToken
   , generateToken
+  , unsafeCoerceToken
   ) where
 
 import Control.DeepSeq
@@ -68,3 +69,6 @@ asciiToToken bs = Token <$> B64.decode bs
 
 textToToken :: Text -> Either String (Token a)
 textToToken = asciiToToken . T.encodeUtf8
+
+unsafeCoerceToken :: Token a -> Token b
+unsafeCoerceToken (Token a) = Token a
