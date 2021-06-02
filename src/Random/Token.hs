@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 module Random.Token
   ( Token
   , tokenToAscii
@@ -21,8 +22,11 @@ import Test.QuickCheck.Arbitrary
 import Web.HttpApiData
 
 import Crypto.Random as R
+
+#ifndef ghcjs_HOST_OS
 import Database.PostgreSQL.Simple.FromField
 import Database.PostgreSQL.Simple.ToField
+#endif
 
 -- | 16 bytes lenght random value parametrized by label.
 newtype Token (a :: k) = Token ByteString
@@ -39,6 +43,7 @@ instance FromJSON (Token a) where
 instance ToJSON (Token a) where
   toJSON = toJSON . tokenToText
 
+#ifndef ghcjs_HOST_OS
 instance forall a. (Typeable (Token a), Typeable a) => FromField (Token a) where
   fromField fld bs = do
     t <- fromField fld bs
@@ -48,6 +53,7 @@ instance forall a. (Typeable (Token a), Typeable a) => FromField (Token a) where
 
 instance ToField (Token a) where
   toField = toField . tokenToText
+#endif
 
 generateToken :: (MonadRandom m) => m (Token a)
 generateToken = Token <$> R.getRandomBytes 16

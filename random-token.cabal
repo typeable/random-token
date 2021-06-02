@@ -17,11 +17,12 @@ library
                      , aeson
                      , base64-bytestring
                      , bytestring
+                     , cryptonite
                      , deepseq
                      , http-api-data
                      , text
-                     , cryptonite
-                     , postgresql-simple
+  if !impl(ghcjs)
+    build-depends:     postgresql-simple
   default-language:    Haskell2010
   default-extensions: CPP
                     , ConstraintKinds
