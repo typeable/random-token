@@ -14,9 +14,9 @@ library
   exposed-modules:    Random.Token
   build-depends:
     , aeson
-    , base               >=4.7 && <5
+    , base               >=4.9  && <5
     , base64-bytestring
-    , bytestring
+    , bytestring         >=0.10
     , deepseq
     , http-api-data
     , QuickCheck
