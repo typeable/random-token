@@ -22,7 +22,7 @@ library
     , QuickCheck
     , text
 
-  if !(impl(ghcjs) || arch(javascript))
+  if !(impl(ghcjs) || arch(javascript) || arch(wasm32))
     build-depends:
       , cryptonite
       , postgresql-simple
