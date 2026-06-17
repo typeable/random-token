@@ -1,6 +1,6 @@
 cabal-version: 2.4
 name:          random-token
-version:       0.1.0.0
+version:       0.1.1.0
 synopsis:      Implementation of random token generation and parsing
 author:        typeable.io
 maintainer:    s9gf4ult@gmail.com

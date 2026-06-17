@@ -9,6 +9,7 @@ module Random.Token
   , tokenWithContents
 #ifndef ghcjs_HOST_OS
   , generateToken
+  , generateDelimitedToken
 #endif
   ) where
 
@@ -60,6 +61,12 @@ instance ToField (Token a) where
 generateToken :: (MonadRandom m) => m (Token a)
 generateToken = Token <$> R.getRandomBytes 16
 
+generateDelimitedToken :: (MonadRandom m) => Text -> Text -> m (Token a)
+generateDelimitedToken prefix postFix =
+  Token . (preBS <>) . (<> postBS) <$> R.getRandomBytes 16
+  where
+    preBS = T.encodeUtf8 prefix
+    postBS = T.encodeUtf8 postFix
 #endif
 
 instance FromHttpApiData (Token a) where
